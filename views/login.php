@@ -2,7 +2,7 @@
 
 $pageTitle = 'Login';
 include_once '../controllers/LoginController.php';
-(isset($_SESSION['id']) ? header('Location: dashboard.php') : NULL);
+(isset($_SESSION['id'])) ? header('Location: dashboard.php') : NULL;
 include_once '../includes/head.php';
 ?>
 
