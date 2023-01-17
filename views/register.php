@@ -14,10 +14,10 @@ include_once '../includes/head.php';
         <div id="logo" class="w-75 mx-auto d-flex justify-content-center mb-5">
             <img class="" src="../dist/img/logo.png" alt="Origin Gamer Logo" width="300">
         </div>
-        <form action="" method="post">
+        <form id="registerForm" action="" method="post">
 
             <div class="mb-3">
-                <input class="w-75 d-block mx-auto rounded px-3 py-2 " type="text" name="fullName" id="fullName" placeholder= "&#xf007;   Full Name" oninput="validateName()">
+                <input class="w-75 d-block mx-auto rounded px-3 py-2 " type="text" name="fullName" id="fullName" placeholder= "&#xf007;   Full Name">
                 <!-- email error -->
                 <?php 
                 if (isset($_SESSION['fullNameError'])){
@@ -28,7 +28,7 @@ include_once '../includes/head.php';
             </div>
 
             <div class="mb-3">
-                <input class="w-75 d-block mx-auto rounded px-3 py-2 " type="text" name="email" id="email" placeholder= "&#xf0e0;   E-mail" oninput="validateEmail()">
+                <input class="w-75 d-block mx-auto rounded px-3 py-2 " type="email" name="email" id="email" placeholder= "&#xf0e0;   E-mail">
                 <!-- email error -->
                 <?php if (isset($_SESSION['emailError'])){
                     echo "<div class='w-75 mx-auto text-danger' role='alert'>".$_SESSION['emailError']."</div>"; 
@@ -38,7 +38,7 @@ include_once '../includes/head.php';
             </div>
 
             <div class="mb-3">
-                <input class="w-75 d-block mx-auto rounded px-3 py-2" type="password" name="password" id="password" placeholder= "&#xf084;   Password" oninput="validatePassword()">
+                <input class="w-75 d-block mx-auto rounded px-3 py-2" type="password" name="password" id="password" placeholder= "&#xf084;   Password">
                 <div id="passwordError" class="w-75 mx-auto text-danger d-none">Please enter a password.</div>
                 <!-- password error -->
                 <?php if (isset($_SESSION['passwordError'])){
@@ -60,3 +60,6 @@ include_once '../includes/head.php';
 
     </div>
 </body>
+<?php
+include_once '../includes/corejs.php';
+?>
