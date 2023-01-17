@@ -44,14 +44,16 @@ class Users extends Database {
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($result) {
-
-            $_SESSION['id'] = $result['id'];
-            $_SESSION['email'] = $result['email'];
-            $_SESSION['fullName'] = $result['fullName'];
-            header('Location: dashboard.php');
+            if (password_verify($this->password, $result['password'])) {
+                $_SESSION['id'] = $result['id'];
+                $_SESSION['email'] = $result['email'];
+                $_SESSION['fullName'] = $result['username'];
+                header('Location: /DevCulture.to/views/dashboard.php');
+            } else {
+                $_SESSION['passwordError'] = 'Wrong password.';
+            }
         } else {
-            $_SESSION['loginError'] = 'Wrong email or password.';
-            header('Location: '.__DIR__.'/../ login.php');
+            $_SESSION['emailError'] = 'This email does not exist.';
         }
     }
     public function logout() {
