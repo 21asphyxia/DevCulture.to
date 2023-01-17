@@ -12780,7 +12780,7 @@ html #loginRegisterPage p, body #loginRegisterPage p {
 html #loginRegisterPage a, body #loginRegisterPage a {
   width: 200px;
 }
-html #loginRegisterPage input[type=text], html #loginRegisterPage input[type=password], body #loginRegisterPage input[type=text], body #loginRegisterPage input[type=password] {
+html #loginRegisterPage input[type=text], html #loginRegisterPage input[type=password], html #loginRegisterPage input[type=email], body #loginRegisterPage input[type=text], body #loginRegisterPage input[type=password], body #loginRegisterPage input[type=email] {
   font-family: "poppins", "FontAwesome";
   background-color: #00021F;
   border: none;
