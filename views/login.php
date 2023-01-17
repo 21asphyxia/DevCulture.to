@@ -1,10 +1,10 @@
 <?php
 $pageTitle = 'Login';
+include_once '../controllers/LoginController.php';
 include_once '../includes/head.php';
 ?>
 
 <body id="loginRegisterPage" class="h-100 d-flex justify-content-center align-items-center">
-
 <!-- ==================================================== -->
     <div id="loginRegisterBox" class=" p-2 w-75 shadow-5-strong  ">
         <h2 class="my-3 text-center" id="pageTitle">LOGIN</h2>
@@ -12,7 +12,13 @@ include_once '../includes/head.php';
         <div id="logo" class="w-75 mx-auto d-flex justify-content-center mb-5">
             <img class="" src="../dist/img/logo.png" alt="Origin Gamer Logo" width="300">
         </div>
-        <form action="" method="post">
+    <?php
+    if (isset($_SESSION['registerSuccess'])){
+        echo "<div class='w-75 mx-auto mb-4 text-success' role='alert'>".$_SESSION['registerSuccess']."</div>"; 
+        unset($_SESSION['registerSuccess']);
+    }
+    ?>
+        <form method="post">
             <div class="mb-3">
                 <input class="w-75 d-block mx-auto rounded px-3 py-2 " type="text" name="email" id="email" placeholder= "&#xf0e0;   E-mail">
                 <!-- email error -->
