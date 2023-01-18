@@ -1,0 +1,42 @@
+#dashboardPage{
+    background : $secondary-color;
+    overflow : auto;
+    .me-6 {
+        margin-right: 200px;
+
+    }
+    .box{
+        background-color: #161832;
+        box-shadow: 0px 0px 12px #000000;
+        border-radius: 12px;
+        padding: 10px;
+    }
+}
+
+table,thead,tbody,tr{
+    width:100%
+}
+
+th{
+    max-width: max-content;
+}
+
+.max-vh-50{
+    overflow: auto;
+    max-height: 60vh;
+}
+
+tr{
+    border-bottom: grey solid 1px;
+}
+
+td {
+    white-space: nowrap;
+}
+
+.td-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    max-width: 0;
+  }
