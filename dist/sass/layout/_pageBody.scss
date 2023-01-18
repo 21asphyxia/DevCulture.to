@@ -5,12 +5,13 @@
         margin-right: 200px;
 
     }
-    .box{
-        background-color: #161832;
-        box-shadow: 0px 0px 12px #000000;
-        border-radius: 12px;
-        padding: 10px;
-    }
+}
+
+.box{
+    background-color: #161832;
+    box-shadow: 0px 0px 12px #000000;
+    border-radius: 12px;
+    padding: 10px;
 }
 
 table,thead,tbody,tr{
@@ -39,4 +40,11 @@ td {
     text-overflow: ellipsis;
     width: 100%;
     max-width: 0;
-  }
+}
+
+#crudPage {
+    background: $secondary-color;
+    main{
+        width: 90%;
+    }
+}

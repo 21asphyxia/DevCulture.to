@@ -11,24 +11,24 @@
                 <span>Dashboard</span></button></a>
         </li>
 
-        <!-- Products button -->
+        <!-- Articles button -->
         <li class="nav-item  mt-5 mx-auto">
-            <a class="" href="products.php">
-            <button class="nav-btn <?php if($pageTitle=='Products'){echo "active";} ?>">
+            <a class="" href="articles.php">
+            <button class="nav-btn <?php if($pageTitle=='Articles'){echo "active";} ?>">
                 <i class="bi bi-file-text-fill"></i>
                 <span>Articles</span></button></a>
             
         </li>
         
         <li class="nav-item  mt-5 mx-auto mb-5">
-            <a class="" href="../index.php">
-                <button class="nav-btn <?php if($pageTitle=='Profile'){echo "active";} ?>">
+            <a class="" href="categories.php">
+                <button class="nav-btn <?php if($pageTitle=='Categories'){echo "active";} ?>">
                 <i class="bi bi-tag-fill"></i>
                 <span>Categories</span></button></a>
         </li>
         <li class="nav-item  mt-5 mx-auto">
-            <a class="" href="../scripts.php?logout=true">
+            <a class="" href="../controllers/LogoutController.php">
                 <button class="nav-btn">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Logout</span></button></a>
+                <span>Log Out</span></button></a>
     </ul>

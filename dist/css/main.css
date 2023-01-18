@@ -12752,7 +12752,8 @@ button {
 #dashboardPage .me-6 {
   margin-right: 200px;
 }
-#dashboardPage .box {
+
+.box {
   background-color: #161832;
   -webkit-box-shadow: 0px 0px 12px #000000;
           box-shadow: 0px 0px 12px #000000;
@@ -12790,6 +12791,13 @@ td {
   max-width: 0;
 }
 
+#crudPage {
+  background: #161832;
+}
+#crudPage main {
+  width: 90%;
+}
+
 #header {
   background: #00021F;
 }
@@ -12802,11 +12810,9 @@ td {
   z-index: 1;
   -webkit-box-shadow: 2px 0 4px #000000;
           box-shadow: 2px 0 4px #000000;
-  -webkit-transition: width 0.35s;
-  transition: width 0.35s;
-}
-#sidebar.collapsed {
-  width: 0;
+  -webkit-transition: all 0.35s;
+  transition: all 0.35s;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -12858,6 +12864,42 @@ td {
   background-color: #00021F;
   outline: none;
   color: white;
+}
+
+#addButton, #addButton i {
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 8px;
+}
+
+#save-button, #update-button {
+  background: #00021F;
+  -webkit-box-shadow: 0px 0px 10px #000000;
+          box-shadow: 0px 0px 10px #000000;
+  border-radius: 5px;
+  color: white;
+}
+
+#cancel-button {
+  background-color: #161832;
+  -webkit-box-shadow: 0px 0px 10px #000000;
+          box-shadow: 0px 0px 10px #000000;
+  border-radius: 5px;
+  color: white;
+}
+
+#cancel-button:active, #save-button:active, #update-button:active {
+  background-color: #00021F;
+  border: none;
+}
+
+.btn:disabled {
+  border: none;
+}
+
+.actionsIcons {
+  height: 97px;
 }
 
 html, body {
