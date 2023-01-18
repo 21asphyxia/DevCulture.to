@@ -12737,6 +12737,119 @@ template {
   display: none;
 }
 
+button {
+  background-color: transparent;
+  color: inherit;
+  border-width: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+#dashboardPage {
+  background: #161832;
+  overflow: auto;
+}
+#dashboardPage .me-6 {
+  margin-right: 200px;
+}
+#dashboardPage .box {
+  background-color: #161832;
+  -webkit-box-shadow: 0px 0px 12px #000000;
+          box-shadow: 0px 0px 12px #000000;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+table, thead, tbody, tr {
+  width: 100%;
+}
+
+th {
+  max-width: -webkit-max-content;
+  max-width: -moz-max-content;
+  max-width: max-content;
+}
+
+.max-vh-50 {
+  overflow: auto;
+  max-height: 60vh;
+}
+
+tr {
+  border-bottom: grey solid 1px;
+}
+
+td {
+  white-space: nowrap;
+}
+
+.td-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  max-width: 0;
+}
+
+#header {
+  background: #00021F;
+}
+
+#sidebar {
+  background: #00021F;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  -webkit-box-shadow: 2px 0 4px #000000;
+          box-shadow: 2px 0 4px #000000;
+  -webkit-transition: width 0.35s;
+  transition: width 0.35s;
+}
+#sidebar.collapsed {
+  width: 0;
+}
+
+.sidebar {
+  width: 14rem;
+}
+
+.username {
+  max-width: -webkit-max-content;
+  max-width: -moz-max-content;
+  max-width: max-content;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.nav-item a {
+  margin: 0;
+  width: 100%;
+}
+
+.nav-btn {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  border: 4px solid #161832;
+  border-radius: 8px;
+  width: 200px;
+  min-height: 46px;
+}
+.nav-btn.active {
+  background: #161832;
+  color: #fff;
+}
+.nav-btn:hover {
+  background: #161832;
+}
+
+.list {
+  max-height: 80vh;
+}
+
+.fs-7 {
+  font-size: 0.9rem;
+}
+
 #loginRegisterPage #logo img {
   max-width: 100%;
 }
