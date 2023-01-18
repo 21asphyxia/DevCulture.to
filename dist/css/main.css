@@ -12791,10 +12791,10 @@ td {
   max-width: 0;
 }
 
-#crudPage {
+.crudPage {
   background: #161832;
 }
-#crudPage main {
+.crudPage main {
   width: 90%;
 }
 
@@ -12856,6 +12856,21 @@ td {
   font-size: 0.9rem;
 }
 
+.modal-content {
+  background-color: #161832;
+  -webkit-box-shadow: 0px 0px 12px #000000;
+          box-shadow: 0px 0px 12px #000000;
+  border-radius: 12px;
+}
+
+.modal-header {
+  border-bottom: grey solid 1px;
+}
+
+.modal-footer {
+  border-top: grey solid 1px;
+}
+
 #loginRegisterPage #logo img {
   max-width: 100%;
 }
@@ -12864,6 +12879,17 @@ td {
   background-color: #00021F;
   outline: none;
   color: white;
+}
+
+.form-control, .form-select {
+  font-family: "poppins", "FontAwesome";
+  background-color: #00021F;
+  border: none;
+  color: white;
+}
+
+.form-select:required:invalid {
+  color: grey;
 }
 
 #addButton, #addButton i {

@@ -1,5 +1,17 @@
-.form-control:focus,input:focus, textarea:focus, select:focus{
-    background-color: #00021F;
-    outline: none;
-    color : white;
+.form-control,input, textarea, select{
+    &:focus{
+        background-color: $primary-color;
+        outline: none;
+        color : white;
+    }
+}
+.form-control,.form-select{
+    font-family:'poppins','FontAwesome';
+    background-color: $primary-color;
+    border: none;
+    color: white;
+}
+
+.form-select:required:invalid {
+    color: grey;
 }
