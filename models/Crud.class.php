@@ -7,7 +7,7 @@ class CRUD extends Database {
         $this->conn = parent::__construct();
     }
 
-    public function create($table, $data) {
+    public function create($table, $data){
         $sql = "INSERT INTO $table SET ";
         $i = 1;
         foreach ($data as $key => $value) {
