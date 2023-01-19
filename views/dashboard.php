@@ -6,7 +6,7 @@ include_once '../controllers/StatisticsController.php';
 include_once '../includes/head.php';
 ?>
 
-<body id="dashboardPage">
+<body id="dashboardPage" >
     <!-- Navbar -->
     <?php include_once '../includes/navbar.php'; ?>
     <!-- End of Navbar -->

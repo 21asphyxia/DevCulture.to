@@ -26,10 +26,17 @@ class CRUD extends Database {
         return $this->conn->lastInsertId();
     }
 
-    public function read($table, $where = null, $order = null, $limit = null) {
-        $sql = "SELECT * FROM $table";
+    public function read($table,$columns="*",$joinTable=null,$joinCondition=null, $where = null, $order = null, $limit = null) {
+        $sql = "SELECT $columns FROM $table";
+        if ($joinTable) {
+            $sql .= " JOIN $joinTable";
+            $sql .= " ON $joinCondition";
+        }
         if ($where) {
             $sql .= " WHERE $where";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         }
         if ($order) {
             $sql .= " ORDER BY $order";
@@ -69,3 +76,5 @@ class CRUD extends Database {
         return $stmt->rowCount();
     }
 }
+
+$crud = new CRUD;
