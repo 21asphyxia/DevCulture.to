@@ -153,7 +153,6 @@ if(document.getElementById('categories') != null){
     
         document.getElementById("save-button").classList.add("d-none");
         document.getElementById("cancel-button").classList.add("d-none");
-        document.getElementById("delete-button").classList.add("d-none");
         document.getElementById("update-button").classList.add("d-none");
     
         enableADD();
@@ -216,9 +215,9 @@ if(document.getElementById('categories') != null){
                             <td class="fs-7 text-start align-middle">${category.id}</td>
                             <td class=" fs-7 text-cnter align-middle"></td>
                             <td class="fs-7 text-center align-middle">${category.name}</td>
-                            <td class="fs-7 text-right align-middle">
-                                <button class="btn btn-primary" onclick="editCategory(${category.id})">Edit</button>
-                                <button class="btn btn-danger" onclick="deleteCategory(${category.id})">Delete</button>
+                            <td class="actionsIcons d-flex justify-content-end align-items-center">
+                                <button onclick="editCategory(${category.id})"><i class="bi fs-6 text-primary bi-pencil-square" ></i></button>
+                                <button class="ms-3" onclick="deleteCategory(${category.id})"><i class="bi bi-trash fs-6 text-danger"></i></button>
                             </td>
                         </tr>
                     `;
@@ -324,4 +323,249 @@ if(document.getElementById('categories') != null){
         });
     }
     readCategories();
+}
+
+if(document.getElementById('articles') != null){
+    
+    // Enable save and update button when all inputs are filled
+    let enableADD = () => {
+        if (document.getElementById("articleTitle").value != "") {
+            document.getElementById("save-button").disabled = false;
+            document.getElementById("update-button").disabled=false;
+        } else {
+            document.getElementById("save-button").disabled=true;
+            document.getElementById("update-button").disabled=true;
+        }
+    }
+
+    document.querySelector("#form").addEventListener("input", enableADD);
+
+    function createArticle() {
+        console.log("1");
+        // initialiser task form
+        initTaskForm();
+        document.getElementById("modalTitle").innerHTML = "Add Article";
+        // Afficher le boutton save
+        document.getElementById("save-button").classList.remove("d-none");
+        document.getElementById("cancel-button").classList.remove("d-none");
+        document.getElementById("save-button").addEventListener("click", saveArticle);
+        // Ouvrir modal form
+        $(document).ready(function() {
+            $('#form').modal('show');
+        });
+    }
+
+    document.querySelector('#addButton').addEventListener('click', createArticle);
+
+    function initTaskForm() {
+        // Clear task form from data
+        document.querySelector('#form').reset();
+        
+        // Hide all action buttons
+    
+        document.getElementById("save-button").classList.add("d-none");
+        document.getElementById("cancel-button").classList.add("d-none");
+        document.getElementById("update-button").classList.add("d-none");
+    
+        enableADD();
+    }
+
+    function saveArticle() {
+        $.ajax({
+            url: '/DevCulture.to/controllers/ArticlesController.php',
+            type: 'POST',
+            data: {
+                type: "create",
+                title: document.getElementById("articleTitle").value,
+                description: document.getElementById("articleDescription").value,
+                category: document.getElementById("articleCategory").value
+            },
+            success: function(result) {
+                console.log(result);
+                if(result){
+                    let res = JSON.parse(result);
+                    if(res.error){
+                        for([errorTitle, error] of Object.entries(res.error)){
+                            let errorMsg = document.createElement('div');
+                            errorMsg.classList.add('text-danger',errorTitle+'Error');
+                            errorMsg.innerHTML = error;
+                            if(document.querySelector('.'+errorTitle+'Error') == null){
+                                document.querySelector('#'+errorTitle).style.border = "2px solid red";
+                                document.querySelector('#'+errorTitle).after(errorMsg);
+                            }
+                        }
+                    }
+                }
+                else{
+                    readArticles();
+
+                    $(document).ready(function() {
+                        $('#form').modal('hide');
+                    });
+                    createAlert('success', 'Article has been added successfully.');
+                }
+            },
+            fail: function(result) {
+                console.log(result);
+                createAlert('danger', 'Category has not been added.');
+            }
+        });
+    } 
+
+    function readArticles() {
+        function categoriesSelect() {
+            $.ajax({
+                // read all categories
+                url: '/DevCulture.to/controllers/CategoriesController.php',
+                type: 'POST',
+                data: {
+                    type: "read",
+                },
+                success: function(result) {
+                    console.log(result);
+                    let categories = JSON.parse(result);
+                    let categoriesOptions = document.querySelector("#articleCategory");
+                    categoriesOptions.innerHTML = '<option disabled selected hidden value="">Select Category</option>';
+                    categories.forEach(category => {
+                        categoriesOptions.innerHTML += `
+                            <option value="${category.id}">${category.name}</option>
+                        `;
+                    });
+                },
+                fail: function(result) {
+                    console.log(result);
+                }
+            });
+        }
+
+        $.ajax({
+            // read all articles
+            url: '/DevCulture.to/controllers/ArticlesController.php',
+            type: 'POST',
+            data: {
+                type: "read",
+            },
+            success: function(result) {
+                console.log(result);
+                let articles = JSON.parse(result);
+                let articlesList = document.querySelector("tbody");
+                articlesList.innerHTML = "";
+                categoriesSelect();
+                articles.forEach(article => {
+                    articlesList.innerHTML += `
+                        <tr>
+                            <td class="fs-7 text-start align-middle">${article.id}</td>
+                            <td class=" fs-7 text-cnter align-middle"></td>
+                            <td class="fs-7 text-center align-middle">${article.title}</td>
+                            <td class="fs-7 text-center align-middle">${article.description}</td>
+                            <td class="fs-7 text-center align-middle">${article.category}</td>
+                            <td class="fs-7 text-center align-middle">${article.author}</td>
+                            <td class="actionsIcons d-flex justify-content-end align-items-center">
+                                <button onclick="editArticle(${article.id})"><i class="bi fs-6 text-primary bi-pencil-square" ></i></button>
+                                <button class="ms-3" onclick="deleteArticle(${article.id})"><i class="bi bi-trash fs-6 text-danger"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            },
+            fail: function(result) {
+                console.log(result);
+            }
+        });
+    }
+
+    function editCategory(id) {
+        console.log("2");
+        // initialiser task form
+        initTaskForm();
+        document.getElementById("modalTitle").innerHTML = "Edit Category";
+        
+        document.getElementById("update-button").classList.remove("d-none");
+        document.getElementById("update-button").addEventListener("click", updateCategory);
+        document.getElementById("cancel-button").classList.remove("d-none");
+        // Ouvrir modal form
+        $(document).ready(function() {
+            $('#form').modal('show');
+        });
+        $.ajax({
+            // read all categories
+            url: '/DevCulture.to/controllers/CategoriesController.php',
+            type: 'POST',
+            data: {
+                type: "readSingle",
+                id: id,
+            },
+            success: function(result) {
+                console.log(result);
+                let category = JSON.parse(result);
+                document.getElementById("categoryId").value = category.id;
+                document.getElementById("categoryName").value = category.name;
+            },
+            fail: function(result) {
+                console.log(result);
+            }
+        });
+    }
+
+    function updateCategory() {
+        $.ajax({
+            url: '/DevCulture.to/controllers/CategoriesController.php',
+            type: 'POST',
+            data: {
+                type: "update",
+                id: document.getElementById("categoryId").value,
+                categoryName: document.getElementById("categoryName").value,
+            },
+            success: function(result) {
+                console.log(result);
+                readCategories();
+
+                $(document).ready(function() {
+                    $('#form').modal('hide');
+                });
+                createAlert('success', 'Category has been updated successfully.');
+            },
+            fail: function(result) {
+                console.log(result);
+                $(document).ready(function() {
+                    $('#form').modal('hide');
+                });
+                createAlert('danger', 'Category has not been updated successfully.');
+            }
+        });
+    }
+
+    function deleteCategory(id) {
+        swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+                $.ajax({
+                    url: '/DevCulture.to/controllers/CategoriesController.php',
+                    type: 'POST',
+                    data: {
+                        type: "delete",
+                        id: id,
+                    },
+                    success: function(result) {
+                        console.log(result);
+                        readCategories();
+                    }
+                });
+                
+            }
+        });
+    }
+    readArticles();
 }

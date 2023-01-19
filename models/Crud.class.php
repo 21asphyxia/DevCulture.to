@@ -29,8 +29,9 @@ class CRUD extends Database {
     public function read($table,$columns="*",$joinTable=null,$joinCondition=null, $where = null, $order = null, $limit = null) {
         $sql = "SELECT $columns FROM $table";
         if ($joinTable) {
-            $sql .= " JOIN $joinTable";
-            $sql .= " ON $joinCondition";
+            for($i = 0; $i < count($joinTable); $i++){
+                $sql .= " JOIN $joinTable[$i] ON $joinCondition[$i]";
+            }
         }
         if ($where) {
             $sql .= " WHERE $where";
