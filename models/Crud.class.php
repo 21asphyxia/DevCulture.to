@@ -34,6 +34,9 @@ class CRUD extends Database {
         }
         if ($where) {
             $sql .= " WHERE $where";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         }
         if ($order) {
             $sql .= " ORDER BY $order";

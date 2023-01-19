@@ -16,11 +16,6 @@ include_once '../controllers/CategoriesController.php';
     <!-- End of Sidebar -->
     
     <main class="pt-3 mx-auto">
-	
-				<div class='alert alert-success alert-dismissible fade show mb-4' >
-					<strong class='text-black'>Success! </strong> Category has been added successfully.
-				<button type="button" class="btn-close btn-close-dark" data-bs-dismiss="alert"></span>
-				</div>
         <div class="box py-4 list overflow-auto">
             <div class="d-flex justify-content-between">
                 <span class="fw-bold ps-3">All Categories</span>
