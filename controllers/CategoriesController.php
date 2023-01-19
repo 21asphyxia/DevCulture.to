@@ -1,6 +1,7 @@
 <?php
 include_once __DIR__.'/../models/Crud.class.php';
 if(isset($_POST['type'])){
+    // form validation
     if($_POST['type'] == 'read'){
         $categories = $crud->read('categories');
         echo json_encode($categories);
@@ -13,10 +14,20 @@ if(isset($_POST['type'])){
         exit();
     }
     else if($_POST['type'] == 'create'){
+        if (empty($_POST['categoryName'])) {
+            $error['error']['categoryName'] = 'Please enter a category name.';
+            echo json_encode($error);
+            exit();
+        }
         $category = $_POST['categoryName'];
         $crud->create('categories', ['name' => $category]);
     }
     else if($_POST['type'] == 'update'){
+        if (empty($_POST['categoryName'])) {
+            $error['error']['categoryName'] = 'Please enter a category name.';
+            echo json_encode($error);
+            exit();
+        }
         $id = $_POST['id'];
         $category = $_POST['categoryName'];
         echo $crud->update('categories',['name' => $category],"id = $id");

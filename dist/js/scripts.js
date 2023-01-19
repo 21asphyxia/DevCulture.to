@@ -169,12 +169,26 @@ if(document.getElementById('categories') != null){
             },
             success: function(result) {
                 console.log(result);
-                readCategories();
+                if(result){
+                    let res = JSON.parse(result);
+                    if(res.error){
+                        let errorMsg = document.createElement('div');
+                        errorMsg.classList.add('text-danger','categoryNameError');
+                        errorMsg.innerHTML = res.error.categoryName;
+                        if(document.querySelector('.categoryNameError') == null){
+                            document.querySelector('#categoryName').style.border = "2px solid red";
+                            document.querySelector('#categoryName').after(errorMsg);
+                        }
+                    }
+                }
+                else{
+                    readCategories();
 
-                $(document).ready(function() {
-                    $('#form').modal('hide');
-                });
-                createAlert('success', 'Category has been added successfully.');
+                    $(document).ready(function() {
+                        $('#form').modal('hide');
+                    });
+                    createAlert('success', 'Category has been added successfully.');
+                }
             },
             fail: function(result) {
                 console.log(result);
