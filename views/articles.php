@@ -1,12 +1,12 @@
 <?php
 
-$pageTitle = 'Categories';
+$pageTitle = 'Articles';
 include_once '../includes/head.php';
-include_once '../controllers/CategoriesController.php';
+include_once '../controllers/ArticlesController.php';
 (!isset($_SESSION['id'])) ? header('Location: login.php') : NULL;
 ?>
 
-<body class="crudPage" id="categories">
+<body class="crudPage" id="articles">
     <!-- Navbar -->
     <?php include_once '../includes/navbar.php'; ?>
     <!-- End of Navbar -->
@@ -18,8 +18,8 @@ include_once '../controllers/CategoriesController.php';
     <main class="pt-3 mx-auto">
         <div class="box py-4 list overflow-auto">
             <div class="d-flex justify-content-between">
-                <span class="fw-bold ps-3">All Categories</span>
-                <button class="btn rounded px-3 me-3" id="addButton"><i class="fa fa-plus pe-3"></i>Add Category</button>
+                <span class="fw-bold ps-3">All Articles</span>
+                <button class="btn rounded px-3 me-3" id="addButton"><i class="fa fa-plus pe-3"></i>Add Article</button>
             </div>
             <div class="table-responsive mt-3">
                 <table class="table table-borderless">
@@ -27,7 +27,10 @@ include_once '../controllers/CategoriesController.php';
                         <tr>
                             <th class="text-secondary fs-7 text-start" scope="col">#</th>
                             <th class="text-secondary fs-7 text-center" scope="col"></th>
-                            <th class="text-secondary fs-7 text-center" scope="col">Category Name</th>
+                            <th class="text-secondary fs-7 text-center" scope="col">Title</th>
+                            <th class="text-secondary fs-7 text-center td-truncate" scope="col">Description</th>
+                            <th class="text-secondary fs-7 text-center" scope="col">Category</th>
+                            <th class="text-secondary fs-7 text-center" scope="col">Author</th>
                             <th class="text-secondary fs-7 text-right" scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -43,14 +46,21 @@ include_once '../controllers/CategoriesController.php';
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header mb-3">
-					<h5 id="modalTitle" class="modal-title">Add Category</h5>
+					<h5 id="modalTitle" class="modal-title">Add Article</h5>
 					<button type="button" id="close-button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<input type="hidden" name="categoryId" id="categoryId">
+					<input type="hidden" name="articleId" id="articleId" required>
 					<div class="mb-3">
-						<input type="text" name="categoryName" class="form-control" id="categoryName" placeholder="Category Name" >
+						<input type="text" name="articleTitle" class="form-control" id="articleTitle" placeholder="Article Title">
 					</div>
+                    <div class="mb-3">
+                        <textarea name="articleDescription" class="form-control" id="articleDescription" placeholder="Article Content" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <select name="articleCategory" class="form-select" id="articleCategory" required>
+                        </select>
+                    </div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn" data-bs-dismiss="modal" id="cancel-button">Cancel</button>
@@ -64,13 +74,11 @@ include_once '../controllers/CategoriesController.php';
     </main>
 	
 </div>
-</body>
-
-
 <!-- ================== BEGIN core-js ================== -->
-    <script src="../dist/js/jquery.min.js"></script>
-    <script src="../dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../dist/js/scripts.js"></script>
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php
+        include_once '../includes/corejs.php';
+    ?>
     <script src="../dist/js/app.min.js"></script>
 	<!-- ================== END core-js ================== -->
+</body>
+

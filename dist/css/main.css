@@ -12769,6 +12769,7 @@ th {
   max-width: -webkit-max-content;
   max-width: -moz-max-content;
   max-width: max-content;
+  font-weight: 700;
 }
 
 .max-vh-50 {
@@ -12890,6 +12891,10 @@ td {
 
 .form-select:required:invalid {
   color: grey;
+}
+
+option {
+  font-family: "Poppins", sans-serif;
 }
 
 #addButton, #addButton i {
