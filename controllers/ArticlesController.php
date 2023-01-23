@@ -3,8 +3,15 @@ include_once __DIR__.'/../models/Crud.class.php';
 if(isset($_POST['type'])){
     // form validation
     if($_POST['type'] == 'read'){
-        $categories = $crud->read('articles', 'articles.id, articles.title, articles.description, admins.username as author, categories.name as category', ['admins','categories'], ['articles.admin_id = admins.id', 'articles.category_id = categories.id']);
-        echo json_encode($categories);
+        $articles = $crud->read('articles', 'articles.id, articles.title, articles.description, admins.username as author, categories.name as category', ['admins','categories'], ['articles.admin_id = admins.id', 'articles.category_id = categories.id']);
+        // xss clean
+        foreach ($articles as $key => $value) {
+            $articles[$key]['title'] = htmlspecialchars($articles[$key]['title']);
+            $articles[$key]['description'] = htmlspecialchars($articles[$key]['description']);
+            $articles[$key]['author'] = htmlspecialchars($articles[$key]['author']);
+            $articles[$key]['category'] = htmlspecialchars($articles[$key]['category']);
+        }
+        echo json_encode($articles);
         exit();
     }
     else if($_POST['type'] == 'readSingle'){

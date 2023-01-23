@@ -4,6 +4,10 @@ if(isset($_POST['type'])){
     // form validation
     if($_POST['type'] == 'read'){
         $categories = $crud->read('categories');
+        // xss clean
+        foreach ($categories as $key => $value) {
+            $categories[$key]['name'] = htmlspecialchars($categories[$key]['name']);
+        }
         echo json_encode($categories);
         exit();
     }
