@@ -50,16 +50,15 @@ include_once '../controllers/ArticlesController.php';
 					<button type="button" id="close-button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<input type="hidden" name="articleId" id="articleId" required>
+					<input type="hidden" name="articleId" id="articleId" >
 					<div class="mb-3">
-						<input type="text" name="articleTitle" class="form-control" id="articleTitle" placeholder="Article Title">
+						<input type="text" name="articleTitle" class="form-control" id="articleTitle" placeholder="Article Title" required>
 					</div>
                     <div class="mb-3">
-                        <textarea name="articleDescription" class="form-control" id="articleDescription" placeholder="Article Content" required></textarea>
+                        <select name="articleCategory" class="form-select" id="articleCategory" required></select>
                     </div>
                     <div class="mb-3">
-                        <select name="articleCategory" class="form-select" id="articleCategory" required>
-                        </select>
+                        <textarea name="articleDescription" class="form-control" id="articleDescription" placeholder="Article Content" required></textarea>
                     </div>
 				</div>
 				<div class="modal-footer">
