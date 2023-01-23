@@ -329,7 +329,46 @@ if(document.getElementById('articles') != null){
     
     // Enable save and update button when all inputs are filled
     let enableADD = () => {
-        if (document.getElementById("articleTitle").value != "") {
+        console.log("1");
+        let titles = document.querySelectorAll('#articleTitle');
+        let contents = document.querySelectorAll('#articleDescription');
+        let categories = document.querySelectorAll('#articleCategory');
+        let titleCondition = null;
+        let contentCondition = null;
+        let categoryCondition = null;
+        titles.forEach(title => {
+            if(title.value == "") {
+                console.log("title");
+                titleCondition = false;
+                return;
+            }
+            else {
+                titleCondition = true;
+            }
+
+        });
+        contents.forEach(content => {
+            if(content.value == "") {
+                console.log("content");
+                contentCondition = false;
+                return;
+            }
+            else {
+                contentCondition = true;
+            }
+        });
+        categories.forEach(category => {
+            if(category.value == "") {
+                console.log("category");
+                categoryCondition = false;
+                return;
+            }
+            else {
+                categoryCondition = true;
+            }
+        });
+
+        if (titleCondition == true && contentCondition == true && categoryCondition == true) {
             document.getElementById("save-button").disabled = false;
             document.getElementById("update-button").disabled=false;
         } else {
@@ -338,12 +377,51 @@ if(document.getElementById('articles') != null){
         }
     }
 
+    function duplicator(num) {
+        if(num < document.querySelectorAll('.modal-body').length) {
+            let diff = document.querySelectorAll('.modal-body').length - num;
+            for (let i = 0; i < diff; i++) {
+                document.querySelectorAll('.modal-body')[document.querySelectorAll('.modal-body').length - 1].remove();
+                document.querySelectorAll('hr')[document.querySelectorAll('hr').length - 1].remove();
+            }
+            return;
+        }
+        let diff = num - document.querySelectorAll('.modal-body').length;
+        for (let i = 0; i < diff; i++) {
+            let hr = document.createElement('hr');
+            let clone = document.querySelector('.modal-body').cloneNode(true);
+            clone.querySelector('#articleTitle').value = "";
+            clone.querySelector('textarea').value = "";
+            // add hr tag before the clone
+            document.querySelectorAll('.modal-body')[document.querySelectorAll('.modal-body').length - 1].after(hr);
+            // add clone after the hr tag
+            hr.after(clone);
+        }
+        enableADD();
+    }
+
     document.querySelector("#form").addEventListener("input", enableADD);
 
     function createArticle() {
-        console.log("1");
         // initialiser task form
         initTaskForm();
+        if(document.getElementById('duplicator') == null) {
+            let dup = document.createElement('input');
+            dup.setAttribute('type', 'number');
+            dup.setAttribute('id', 'duplicator');
+            dup.setAttribute('name', 'duplicator');
+            dup.setAttribute('min', '1');
+            dup.classList.add('form-control', 'mb-2', 'd-flex','align-self-center');
+            dup.setAttribute('value', '1');
+            document.querySelector('.modal-content').appendChild(dup);
+            dup.addEventListener("change", function() {
+                duplicator(this.value);
+            });
+        }
+        else {
+            document.getElementById('duplicator').value = 1;
+            duplicator(1);
+        }
         document.getElementById("modalTitle").innerHTML = "Add Article";
         // Afficher le boutton save
         document.getElementById("save-button").classList.remove("d-none");
@@ -476,9 +554,12 @@ if(document.getElementById('articles') != null){
     }
 
     function editArticle(id) {
-        console.log("2");
         // initialiser task form
         initTaskForm();
+        if (document.querySelector("#duplicator") != null) {
+            duplicator(1);
+            document.querySelector("#duplicator").remove();
+        }
         document.getElementById("modalTitle").innerHTML = "Edit Article";
         
         document.getElementById("update-button").classList.remove("d-none");
