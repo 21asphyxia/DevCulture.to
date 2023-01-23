@@ -303,7 +303,7 @@ if(document.getElementById('categories') != null){
             if (result.isConfirmed) {
                 Swal.fire(
                     'Deleted!',
-                    'Your file has been deleted.',
+                    'The category has been deleted.',
                     'success'
                 )
                 $.ajax({
@@ -360,6 +360,7 @@ if(document.getElementById('articles') != null){
     function initTaskForm() {
         // Clear task form from data
         document.querySelector('#form').reset();
+        document.querySelector('textarea').innerText = "";
         
         // Hide all action buttons
     
@@ -407,7 +408,7 @@ if(document.getElementById('articles') != null){
             },
             fail: function(result) {
                 console.log(result);
-                createAlert('danger', 'Category has not been added.');
+                createAlert('danger', 'Article has not been added.');
             }
         });
     } 
@@ -474,14 +475,14 @@ if(document.getElementById('articles') != null){
         });
     }
 
-    function editCategory(id) {
+    function editArticle(id) {
         console.log("2");
         // initialiser task form
         initTaskForm();
-        document.getElementById("modalTitle").innerHTML = "Edit Category";
+        document.getElementById("modalTitle").innerHTML = "Edit Article";
         
         document.getElementById("update-button").classList.remove("d-none");
-        document.getElementById("update-button").addEventListener("click", updateCategory);
+        document.getElementById("update-button").addEventListener("click", updateArticle);
         document.getElementById("cancel-button").classList.remove("d-none");
         // Ouvrir modal form
         $(document).ready(function() {
@@ -489,7 +490,7 @@ if(document.getElementById('articles') != null){
         });
         $.ajax({
             // read all categories
-            url: '/DevCulture.to/controllers/CategoriesController.php',
+            url: '/DevCulture.to/controllers/ArticlesController.php',
             type: 'POST',
             data: {
                 type: "readSingle",
@@ -497,9 +498,11 @@ if(document.getElementById('articles') != null){
             },
             success: function(result) {
                 console.log(result);
-                let category = JSON.parse(result);
-                document.getElementById("categoryId").value = category.id;
-                document.getElementById("categoryName").value = category.name;
+                let article = JSON.parse(result);
+                document.getElementById("articleId").value = article.id;
+                document.getElementById("articleTitle").value = article.title;
+                document.getElementById("articleDescription").innerText = article.description;
+                document.getElementById("articleCategory").value = article.category;
             },
             fail: function(result) {
                 console.log(result);
@@ -507,35 +510,50 @@ if(document.getElementById('articles') != null){
         });
     }
 
-    function updateCategory() {
+    function updateArticle() {
         $.ajax({
-            url: '/DevCulture.to/controllers/CategoriesController.php',
+            url: '/DevCulture.to/controllers/ArticlesController.php',
             type: 'POST',
             data: {
                 type: "update",
-                id: document.getElementById("categoryId").value,
-                categoryName: document.getElementById("categoryName").value,
+                id: document.getElementById("articleId").value,
+                title: document.getElementById("articleTitle").value,
+                category: document.getElementById("articleCategory").value,
+                description: document.getElementById("articleDescription").value
             },
             success: function(result) {
                 console.log(result);
-                readCategories();
-
-                $(document).ready(function() {
-                    $('#form').modal('hide');
-                });
-                createAlert('success', 'Category has been updated successfully.');
+                if(result){
+                    let res = JSON.parse(result);
+                    if(res.error){
+                        for([errorTitle, error] of Object.entries(res.error)){
+                            let errorMsg = document.createElement('div');
+                            errorMsg.classList.add('text-danger',errorTitle+'Error');
+                            errorMsg.innerHTML = error;
+                            if(document.querySelector('.'+errorTitle+'Error') == null){
+                                document.querySelector('#'+errorTitle).style.border = "2px solid red";
+                                document.querySelector('#'+errorTitle).after(errorMsg);
+                            }
+                        }
+                    }
+                    else{
+                        readArticles();
+    
+                        $(document).ready(function() {
+                            $('#form').modal('hide');
+                        });
+                        createAlert('success', 'Article has been updated successfully.');
+                    }
+                }
             },
             fail: function(result) {
                 console.log(result);
-                $(document).ready(function() {
-                    $('#form').modal('hide');
-                });
-                createAlert('danger', 'Category has not been updated successfully.');
+                createAlert('danger', 'Article has not been updated.');
             }
         });
     }
 
-    function deleteCategory(id) {
+    function deleteArticle(id) {
         swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -548,11 +566,11 @@ if(document.getElementById('articles') != null){
             if (result.isConfirmed) {
                 Swal.fire(
                     'Deleted!',
-                    'Your file has been deleted.',
+                    'Your Article has been deleted.',
                     'success'
                 )
                 $.ajax({
-                    url: '/DevCulture.to/controllers/CategoriesController.php',
+                    url: '/DevCulture.to/controllers/ArticlesController.php',
                     type: 'POST',
                     data: {
                         type: "delete",
@@ -560,7 +578,7 @@ if(document.getElementById('articles') != null){
                     },
                     success: function(result) {
                         console.log(result);
-                        readCategories();
+                        readArticles();
                     }
                 });
                 
