@@ -45,7 +45,7 @@ include_once '../controllers/ArticlesController.php';
         <form class="modal fade" id="form" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-header mb-3">
+				<div class="modal-header mb-3" >
 					<h5 id="modalTitle" class="modal-title">Add Article</h5>
 					<button type="button" id="close-button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
@@ -66,7 +66,6 @@ include_once '../controllers/ArticlesController.php';
 					<button type="button" name="save" id="save-button" class="btn">Save</button>
 					<button type="button" name="update" class="btn" id="update-button">Update</button>
 				</div>
-				
 			</div>
 		</div>
 	</form>
