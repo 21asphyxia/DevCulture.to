@@ -128,7 +128,6 @@ if(document.getElementById('categories') != null){
     document.querySelector("#form").addEventListener("input", enableADD);
 
     function createCategory() {
-        console.log("1");
         // initialiser task form
         initTaskForm();
         document.getElementById("modalTitle").innerHTML = "Add Category";
@@ -167,7 +166,6 @@ if(document.getElementById('categories') != null){
                 categoryName: document.getElementById("categoryName").value,
             },
             success: function(result) {
-                console.log(result);
                 if(result){
                     let res = JSON.parse(result);
                     if(res.error){
@@ -190,7 +188,6 @@ if(document.getElementById('categories') != null){
                 }
             },
             fail: function(result) {
-                console.log(result);
                 createAlert('danger', 'Category has not been added.');
             }
         });
@@ -205,7 +202,6 @@ if(document.getElementById('categories') != null){
                 type: "read",
             },
             success: function(result) {
-                console.log(result);
                 let categories = JSON.parse(result);
                 let categoriesList = document.querySelector("tbody");
                 categoriesList.innerHTML = "";
@@ -230,7 +226,6 @@ if(document.getElementById('categories') != null){
     }
 
     function editCategory(id) {
-        console.log("2");
         // initialiser task form
         initTaskForm();
         document.getElementById("modalTitle").innerHTML = "Edit Category";
@@ -251,7 +246,6 @@ if(document.getElementById('categories') != null){
                 id: id,
             },
             success: function(result) {
-                console.log(result);
                 let category = JSON.parse(result);
                 document.getElementById("categoryId").value = category.id;
                 document.getElementById("categoryName").value = category.name;
@@ -272,7 +266,6 @@ if(document.getElementById('categories') != null){
                 categoryName: document.getElementById("categoryName").value,
             },
             success: function(result) {
-                console.log(result);
                 readCategories();
 
                 $(document).ready(function() {
@@ -314,7 +307,6 @@ if(document.getElementById('categories') != null){
                         id: id,
                     },
                     success: function(result) {
-                        console.log(result);
                         readCategories();
                     }
                 });
@@ -329,51 +321,16 @@ if(document.getElementById('articles') != null){
     
     // Enable save and update button when all inputs are filled
     let enableADD = () => {
-        console.log("1");
-        let titles = document.querySelectorAll('#articleTitle');
-        let contents = document.querySelectorAll('#articleDescription');
-        let categories = document.querySelectorAll('#articleCategory');
-        let titleCondition = null;
-        let contentCondition = null;
-        let categoryCondition = null;
-        titles.forEach(title => {
-            if(title.value == "") {
-                console.log("title");
-                titleCondition = false;
-                return;
-            }
-            else {
-                titleCondition = true;
-            }
-
-        });
-        contents.forEach(content => {
-            if(content.value == "") {
-                console.log("content");
-                contentCondition = false;
-                return;
-            }
-            else {
-                contentCondition = true;
-            }
-        });
-        categories.forEach(category => {
-            if(category.value == "") {
-                console.log("category");
-                categoryCondition = false;
-                return;
-            }
-            else {
-                categoryCondition = true;
-            }
-        });
-
-        if (titleCondition == true && contentCondition == true && categoryCondition == true) {
-            document.getElementById("save-button").disabled = false;
-            document.getElementById("update-button").disabled=false;
-        } else {
+        let titles = [...document.querySelectorAll('#articleTitle')];
+        let contents = [...document.querySelectorAll('#articleDescription')];
+        let categories = [...document.querySelectorAll('#articleCategory')];
+        
+        if (titles.some(title => title.value == "") || contents.some(content => content.value == "") || categories.some(category => category.value == "")) {
             document.getElementById("save-button").disabled=true;
             document.getElementById("update-button").disabled=true;
+        } else {
+            document.getElementById("save-button").disabled = false;
+            document.getElementById("update-button").disabled=false;
         }
     }
 
@@ -450,42 +407,73 @@ if(document.getElementById('articles') != null){
     }
 
     function saveArticle() {
+        let titles = document.querySelectorAll('#articleTitle');
+        let contents = document.querySelectorAll('#articleDescription');
+        let categories = document.querySelectorAll('#articleCategory');
+        let articles = [];
+        for (let i = 0; i < titles.length; i++) {
+            articles.push({
+                title: titles[i].value,
+                description: contents[i].value,
+                category: categories[i].value
+            });
+        }
         $.ajax({
             url: '/DevCulture.to/controllers/ArticlesController.php',
             type: 'POST',
             data: {
                 type: "create",
-                title: document.getElementById("articleTitle").value,
-                description: document.getElementById("articleDescription").value,
-                category: document.getElementById("articleCategory").value
+                articles: articles
             },
             success: function(result) {
                 console.log(result);
                 if(result){
                     let res = JSON.parse(result);
                     if(res.error){
-                        for([errorTitle, error] of Object.entries(res.error)){
-                            let errorMsg = document.createElement('div');
-                            errorMsg.classList.add('text-danger',errorTitle+'Error');
-                            errorMsg.innerHTML = error;
-                            if(document.querySelector('.'+errorTitle+'Error') == null){
-                                document.querySelector('#'+errorTitle).style.border = "2px solid red";
-                                document.querySelector('#'+errorTitle).after(errorMsg);
+                        console.log(res.error);
+                        for([errorNum, fullError] of Object.entries(res.error)){
+                            console.log(fullError);
+                            for([errorTitle, error] of Object.entries(fullError)){
+                                console.log(errorTitle);
+                                console.log(error);
+                                let elements = document.querySelectorAll('#article'+errorTitle.charAt(0).toUpperCase() + errorTitle.slice(1));
+                                console.log(elements);
+                                console.log(errorNum);
+                                console.log(elements[errorNum]);
+                                if(elements[errorNum].nextElementSibling == null){
+                                    elements[errorNum].style.border = "2px solid red";
+                                    let errorMsg = document.createElement('div');
+                                    errorMsg.classList.add('text-danger',errorTitle+'Error');
+                                    errorMsg.innerHTML = error;
+                                    elements[errorNum].after(errorMsg);
+                                }
                             }
                         }
                     }
-                }
-                else{
-                    readArticles();
+                    
+                        // for([errorTitle, error] of Object.entries(res.error)){
+                        //     let errorMsg = document.createElement('div');
+                        //     errorMsg.classList.add('text-danger',errorTitle+'Error');
+                        //     errorMsg.innerHTML = error;
+                        //     let elements = document.querySelectorAll('#'+errorTitle);
+                        //     if(elements.length > 0){
+                        //         for (let i = 0; i < elements.length; i++) {
+                        //             elements[i].style.border = "2px solid red";
+                        //             elements[i].after(errorMsg);
+                        //         }
+                        //     }
+                        // }
+                    else{
+                        readArticles();
 
-                    $(document).ready(function() {
-                        $('#form').modal('hide');
-                    });
-                    createAlert('success', 'Article has been added successfully.');
+                        $(document).ready(function() {
+                            $('#form').modal('hide');
+                        });
+                        createAlert('success', 'Article has been added successfully.');
+                    }
                 }
             },
             fail: function(result) {
-                console.log(result);
                 createAlert('danger', 'Article has not been added.');
             }
         });
@@ -501,7 +489,6 @@ if(document.getElementById('articles') != null){
                     type: "read",
                 },
                 success: function(result) {
-                    console.log(result);
                     let categories = JSON.parse(result);
                     let categoriesOptions = document.querySelector("#articleCategory");
                     categoriesOptions.innerHTML = '<option disabled selected hidden value="">Select Category</option>';
@@ -525,7 +512,6 @@ if(document.getElementById('articles') != null){
                 type: "read",
             },
             success: function(result) {
-                console.log(result);
                 let articles = JSON.parse(result);
                 let articlesList = document.querySelector("tbody");
                 articlesList.innerHTML = "";
@@ -578,7 +564,6 @@ if(document.getElementById('articles') != null){
                 id: id,
             },
             success: function(result) {
-                console.log(result);
                 let article = JSON.parse(result);
                 document.getElementById("articleId").value = article.id;
                 document.getElementById("articleTitle").value = article.title;
@@ -603,7 +588,6 @@ if(document.getElementById('articles') != null){
                 description: document.getElementById("articleDescription").value
             },
             success: function(result) {
-                console.log(result);
                 if(result){
                     let res = JSON.parse(result);
                     if(res.error){
@@ -658,7 +642,6 @@ if(document.getElementById('articles') != null){
                         id: id,
                     },
                     success: function(result) {
-                        console.log(result);
                         readArticles();
                     }
                 });

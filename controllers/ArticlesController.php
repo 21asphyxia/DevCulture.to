@@ -21,24 +21,31 @@ if(isset($_POST['type'])){
         exit();
     }
     else if($_POST['type'] == 'create'){
-        if (empty($_POST['title'])) {
-            $error['error']['articleTitle'] = 'Please enter a title name.';
-        }
-        if (empty($_POST['description'])) {
-            $error['error']['articleDescription'] = 'Please enter a description.';
-        }
-        if (empty($_POST['category'])) {
-            $error['error']['articleCategory'] = 'Please enter a category.';
+        // multiple form validation
+        foreach ($_POST["articles"] as $key => $value) {
+            $num = $key;
+            foreach ($value as $key => $value) {
+                if (empty($value)) {
+                    $error['error'][$num][$key] = 'Please enter a '.$key.'.';
+                }
+            }
         }
         if (!empty($error)) {
             echo json_encode($error);
             exit();
         }
-        $crud->create('articles', ['title' => $_POST['title'], 'description' => $_POST['description'], 'category_id' => $_POST['category'], 'admin_id' => $_SESSION['id']]);
+        // insert into database
+        $numberOfArticles =0;
+        foreach ($_POST["articles"] as $key => $value) {
+            $numberOfArticles++;
+            $article = ['title' => $value['title'], 'description' => $value['description'], 'category_id' => $value['category'], 'admin_id' => $_SESSION['id']];
+            $crud->create('articles', $article);
+        }
+        echo json_encode($numberOfArticles." articles added successfully");
     }
     else if($_POST['type'] == 'update'){
         if (empty($_POST['title'])) {
-            $error['error']['articleTitle'] = 'Please enter a title name.';
+            $error['error'][0]['articleTitle'] = 'Please enter a title name.';
         }
         if (empty($_POST['description'])) {
             $error['error']['articleDescription'] = 'Please enter a description.';
