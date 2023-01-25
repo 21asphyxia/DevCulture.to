@@ -520,7 +520,7 @@ if(document.getElementById('articles') != null){
                     articlesList.innerHTML += `
                         <tr>
                             <td class="fs-7 text-start align-middle">${article.id}</td>
-                            <td class=" fs-7 text-cnter align-middle"></td>
+                            <td class="fs-7 text-center align-middle"></td>
                             <td class="fs-7 text-center align-middle">${article.title}</td>
                             <td class="fs-7 text-center align-middle">${article.description}</td>
                             <td class="fs-7 text-center align-middle">${article.category}</td>
