@@ -1,7 +1,7 @@
 <ul class="navbar-nav sidebar md-sm-dis toggled" id="sidebar">
         <li class="nav-item my-5 d-flex-column">
                 <!-- <div class="mx-auto username mb-3"><img class ="" src="../dist/img/user1pfp.png" alt="Profile Picture"></div>  -->
-                <p class="username mx-auto"><?= $_SESSION['fullName']?></p>
+                <p class="username text-center mx-auto"><?= $_SESSION['fullName']?></p>
         </li>
         <!-- dashboard button -->
         <li class="nav-item mt-5 mx-auto">

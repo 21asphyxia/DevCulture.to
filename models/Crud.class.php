@@ -26,7 +26,9 @@ class CRUD extends Database {
         return $this->conn->lastInsertId();
     }
 
-    public function read($table,$columns="*",$joinTable=null,$joinCondition=null, $where = null, $order = null, $limit = null) {
+    public function read($table,$columns="*",$joinTable=null,$joinCondition=null, $where = null, $order = null, $limit = null, $group = null) {
+        // echo $columns;
+
         $sql = "SELECT $columns FROM $table";
         if ($joinTable) {
             for($i = 0; $i < count($joinTable); $i++){
@@ -38,6 +40,9 @@ class CRUD extends Database {
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        if ($group) {
+            $sql .= " GROUP BY $group";
         }
         if ($order) {
             $sql .= " ORDER BY $order";
