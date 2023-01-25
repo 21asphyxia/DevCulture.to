@@ -18,15 +18,11 @@ include_once '../includes/head.php';
         <div class="mt-2 d-flex justify-content-evenly w-100 mb-5 flex-wrap">
             <div class="ps-3 pe-5 py-3 box mb-4">
                 <div class="fs-5 mb-4 fw-bold">Total Articles</div>
-                <div class="fs-6"><?php
-                
-                ?> Articles</div>
+                <div class="fs-6"><?= $totalArticles ?> Articles</div>
             </div>
             <div class="ps-3 pe-5 py-3 box mb-4">
                 <div class="fs-5 mb-4 fw-bold">Total Categories</div>
-                <div class="fs-6"><?php
-                
-                ?> Categories</div>
+                <div class="fs-6"><?= $totalCategories ?> Categories</div>
             </div>
         </div>
         <div class="box max-vh-50">
@@ -42,6 +38,13 @@ include_once '../includes/head.php';
                     </thead>
                     <tbody>
                         <?php
+                        foreach ($allDevs as $key => $dev) {
+                            echo '<tr>
+                            <th class="text-center align-middle" scope="row">'.$dev['id'].'</th>
+                            <td class="text-center align-middle">'.$dev['username'].'</td>
+                            <td class="text-center align-middle">'.$dev['total'].'</td>
+                            </tr>';
+                        }
                         
                         ?>
                     </tbody>

@@ -59,6 +59,6 @@ class Users extends Database {
     }
     public function logout() {
         session_destroy();
-        header('Location: '.__DIR__.'/../ login.php');
+        header('Location: /DevCulture.to/index.php');
     }
 }
