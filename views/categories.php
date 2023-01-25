@@ -5,6 +5,7 @@ include_once '../includes/head.php';
 include_once '../controllers/CategoriesController.php';
 (!isset($_SESSION['id'])) ? header('Location: login.php') : NULL;
 ?>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
 
 <body class="crudPage" id="categories">
     <!-- Navbar -->
@@ -18,11 +19,11 @@ include_once '../controllers/CategoriesController.php';
     <main class="pt-3 mx-auto">
         <div class="box py-4 list overflow-auto">
             <div class="d-flex justify-content-between">
-                <span class="fw-bold ps-3">All Categories</span>
+                <span class="fw-bold my-auto ps-3">All Categories</span>
                 <button class="btn rounded px-3 me-3" id="addButton"><i class="fa fa-plus pe-3"></i>Add Category</button>
             </div>
             <div class="table-responsive mt-3">
-                <table class="table table-borderless">
+                <table id="myTable" class="table table-borderless">
                     <thead>
                         <tr>
                             <th class="text-secondary fs-7 text-start" scope="col">#</th>
@@ -64,13 +65,19 @@ include_once '../controllers/CategoriesController.php';
     </main>
 	
 </div>
-</body>
-
-
 <!-- ================== BEGIN core-js ================== -->
-    <script src="../dist/js/jquery.min.js"></script>
-    <script src="../dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../dist/js/scripts.js"></script>
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <?php
+        include_once '../includes/corejs.php';
+    ?>
     <script src="../dist/js/app.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 	<!-- ================== END core-js ================== -->
+
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable({
+                "lengthMenu": [[3, 6, 9, 12, -1], [3, 6, 9, 12, "All"]]
+            });
+        } );
+    </script>
+</body>
