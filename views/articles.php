@@ -5,6 +5,7 @@ include_once '../includes/head.php';
 include_once '../controllers/ArticlesController.php';
 (!isset($_SESSION['id'])) ? header('Location: login.php') : NULL;
 ?>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
 
 <body class="crudPage" id="articles">
     <!-- Navbar -->
@@ -22,7 +23,7 @@ include_once '../controllers/ArticlesController.php';
                 <button class="btn rounded px-3 me-3" id="addButton"><i class="fa fa-plus pe-3"></i>Add Article</button>
             </div>
             <div class="table-responsive mt-3">
-                <table class="table table-borderless">
+                <table id="myTable" class="table table-borderless">
                     <thead>
                         <tr>
                             <th class="text-secondary fs-7 text-start" scope="col">#</th>
@@ -77,6 +78,14 @@ include_once '../controllers/ArticlesController.php';
         include_once '../includes/corejs.php';
     ?>
     <script src="../dist/js/app.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 	<!-- ================== END core-js ================== -->
+    <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable({
+                    "lengthMenu": [[3, 6, 9, 12, -1], [3, 6, 9, 12, "All"]]
+                });
+            } );
+    </script>
 </body>
 
