@@ -26,9 +26,9 @@ if (isset($_POST['register'])){
         $_SESSION['confirmPasswordError'] = 'Passwords do not match.';
     } else{
         //password regex
-        $uppercase = preg_match('@[A-Z]@', $password);
-        $lowercase = preg_match('@[a-z]@', $password);
-        $number    = preg_match('@[0-9]@', $password);
+        $uppercase = preg_match('/[A-Z]/', $password);
+        $lowercase = preg_match('/[a-z]/', $password);
+        $number    = preg_match('/[0-9]/', $password);
 
         if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
             $_SESSION['passwordError'] = 'Password should be at least 8 characters in length and should include at least one upper case letter, and one number.';
